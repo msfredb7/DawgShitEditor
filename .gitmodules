@@ -1,0 +1,6 @@
+[submodule "DawgShitEditor/Packages/com.unity-x.unityengine-x"]
+	path = DawgShitEditor/Packages/com.unity-x.unityengine-x
+	url = https://github.com/Unity-X/UnityEngine-X.git
+[submodule "DawgShitEditor/Packages/com.ccc-development.upaint"]
+	path = DawgShitEditor/Packages/com.ccc-development.upaint
+	url = https://github.com/CCC-Development/UPaint.git
