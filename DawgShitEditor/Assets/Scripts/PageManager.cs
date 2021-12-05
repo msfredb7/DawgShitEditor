@@ -8,11 +8,6 @@ using UnityEngineX;
 
 public class PageManager : MonoBehaviour
 {
-    [SerializeField] private Button _addButton = null;
-    [SerializeField] private Button _pagePrefab = null;
-    [SerializeField] private Transform _layerButtonContainer = null;
-    [SerializeField] private UPaintGUIReferences _refs;
-
     private class Page
     {
         public GameObject RootGameObject;
@@ -22,8 +17,18 @@ public class PageManager : MonoBehaviour
         public Button Button;
     }
 
+    [SerializeField] private Button _addButton = null;
+    [SerializeField] private Button _pagePrefab = null;
+    [SerializeField] private Transform _layerButtonContainer = null;
+    [SerializeField] private UPaintGUIReferences _refs;
+
     private List<Page> _pages = new List<Page>();
     private Page _activePage = null;
+
+    public int PageCount => _pages.Count;
+
+    public delegate void PageChangeDelegate(UPaintGUI previousPage, UPaintGUI newPage);
+    public event PageChangeDelegate ActivePageChanged;
 
     void Start()
     {
@@ -39,6 +44,8 @@ public class PageManager : MonoBehaviour
         AddPage(newPageCanvas);
     }
 
+    public UPaintGUI GetPageUPaint(int i) => _pages[i].Upaint;
+
     private void AddPage(GameObject canvas)
     {
         var page = new Page();
@@ -50,20 +57,29 @@ public class PageManager : MonoBehaviour
         newButton.transform.Find("Up Button").GetComponent<Button>().onClick.AddListener(() => MovePageUp(page));
         newButton.transform.Find("Down Button").GetComponent<Button>().onClick.AddListener(() => MovePageDown(page));
 
+        // assign refs
         page.Upaint = canvas.GetComponentInChildren<UPaintGUI>(includeInactive: true);
         page.Button = newButton;
         page.RootGameObject = canvas;
         page.BGDark = canvas.transform.GetChild(0).Find("BG Dark").gameObject;
         page.BGLight = canvas.transform.GetChild(0).Find("BG Light").gameObject;
-
         _pages.Add(page);
 
-        if (_activePage == null)
-            _activePage = page;
+        // add 1 layer
+        if (page.Upaint.LayerCount == 0)
+            page.Upaint.AddLayer();
+
+        // set active
+        SelectPage(page);
     }
 
     private void SelectPage(Page page)
     {
+        if (page == _activePage)
+            return;
+
+        var previousPage = _activePage;
+
         // deactivate old
         if (_activePage != null)
         {
@@ -79,6 +95,7 @@ public class PageManager : MonoBehaviour
 
         // activate new
         _activePage.RootGameObject?.SetActive(true);
+        ActivePageChanged?.Invoke(previousPage?.Upaint, _activePage?.Upaint);
     }
 
     private void RemovePage(Page page)
@@ -111,11 +128,12 @@ public class PageManager : MonoBehaviour
     {
         for (int i = 0; i < _pages.Count; i++)
         {
+            _pages[i].Button.transform.SetSiblingIndex(i);
             _pages[i].Button.transform.Find("X Button").GetComponent<Button>().interactable = _pages.Count > 1;
             _pages[i].Button.transform.Find("Up Button").GetComponent<Button>().interactable = i > 0;
             _pages[i].Button.transform.Find("Down Button").GetComponent<Button>().interactable = i < _pages.Count - 1;
             _pages[i].Button.transform.Find("Selected Frame").gameObject.SetActive(_activePage == _pages[i]);
-            _pages[i].Button.GetComponent<RawImage>().texture = _pages[i].Upaint.GetLayerTexture(i);
+            _pages[i].Button.GetComponent<RawImage>().texture = _pages[i].Upaint.GetCombinedTexture();
         }
     }
 }
