@@ -36,3 +36,7 @@ Le DawgShitEditor est un logiciel pour aider à la création de chapitre pour le
 
 
 # Faire un chapitre sans DawgShitEditor
+Si tu veux faire un chapitre de Dawg Shit sans l'éditeur (e.g avec Paint, Gimp ou Photoshop), assure toi de:
+- Exporter des jpg
+- Garder une résolution de 800x1280
+- Ne pas dépassé 20 MB pour ton chapitre en entier
