@@ -146,7 +146,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DawgShit.Editor
+    Standalone: com.CCC-Development.DawgShitEditor
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -561,7 +561,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    1: UNITY_X_LOG_ASSERT;UNITY_X_LOG_ERROR;UNITY_X_LOG_INFO;UNITY_X_LOG_EXCEPTION;UNITY_X_LOG_WARNING
+    1: UNITY_X_LOG_ASSERT;UNITY_X_LOG_INFO;UNITY_X_LOG_ERROR;UNITY_X_LOG_EXCEPTION;UNITY_X_LOG_WARNING;UNITY_X_LOG_METHOD
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

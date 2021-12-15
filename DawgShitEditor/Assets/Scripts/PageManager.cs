@@ -2,6 +2,7 @@ using CCC.UPaintGUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngineX;
@@ -44,6 +45,25 @@ public class PageManager : MonoBehaviour
         AddPage(newPageCanvas);
     }
 
+    public void ExportAllPages(string fileNameFormat)
+    {
+        _activePage?.RootGameObject.SetActive(false);
+
+        for (int i = 0; i < _pages.Count; i++)
+        {
+            var path = string.Format(fileNameFormat, i + 1);
+            var dir = Path.GetDirectoryName(path);
+
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            _pages[i].RootGameObject.SetActive(true);
+            File.WriteAllBytes(path, _pages[i].Upaint.ExportToImage(UPaintGUI.ExportEncoding.JPG));
+        }
+        
+        _activePage?.RootGameObject.SetActive(true);
+    }
+
     public UPaintGUI GetPageUPaint(int i) => _pages[i].Upaint;
 
     private void AddPage(GameObject canvas)
@@ -63,6 +83,11 @@ public class PageManager : MonoBehaviour
         page.RootGameObject = canvas;
         page.BGDark = canvas.transform.GetChild(0).Find("BG Dark").gameObject;
         page.BGLight = canvas.transform.GetChild(0).Find("BG Light").gameObject;
+        // clear all texts from the previous page
+        foreach (Transform textChild in page.RootGameObject.transform.Find("TextContainer"))
+        {
+            Destroy(textChild.gameObject);
+        }
         _pages.Add(page);
 
         // add 1 layer
