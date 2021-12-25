@@ -1,0 +1,2 @@
+1.0.1
+- Fixed bug where exporting pages would put the software in a broken state (invisible drawing, incorrect page previews and more)

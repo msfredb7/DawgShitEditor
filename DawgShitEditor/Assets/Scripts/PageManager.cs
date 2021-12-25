@@ -58,9 +58,11 @@ public class PageManager : MonoBehaviour
                 Directory.CreateDirectory(dir);
 
             _pages[i].RootGameObject.SetActive(true);
-            File.WriteAllBytes(path, _pages[i].Upaint.ExportToImage(UPaintGUI.ExportEncoding.JPG));
+            byte[] bytes = _pages[i].Upaint.ExportToImage(UPaintGUI.ExportEncoding.JPG);
+            File.WriteAllBytes(path, bytes);
+            _pages[i].RootGameObject.SetActive(false);
         }
-        
+
         _activePage?.RootGameObject.SetActive(true);
     }
 
