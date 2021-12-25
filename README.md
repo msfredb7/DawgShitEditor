@@ -1,7 +1,7 @@
 # DawgShitEditor
 Le DawgShitEditor est un logiciel pour aider à la création de chapitre pour le comic Dawg Shit.
 
-[Latest Release Download](https://github.com/msfredb7/DawgShitEditor/raw/main/OfficialReleases/DawgShitEditor%201.0.0.zip)
+[Latest Release Download](https://github.com/msfredb7/DawgShitEditor/raw/main/OfficialReleases/DawgShitEditor%201.0.1.zip)
 
 # Créer et publier un chapitre
 1. Si tu n'as pas déjà le DawgShitEditor, download la dernière version dans le folder Official Releases. Les chapitres de Dawg Shit peuvent être produit sans l'aide du DawgShitEditor (un chapitre n'est qu'un assemblage de .jpg), mais il est plus simple de l'utiliser. Si tu ne veux pas utiliser le DawgShitEditor, saute à l'étape X et va lire la section plus bas.
