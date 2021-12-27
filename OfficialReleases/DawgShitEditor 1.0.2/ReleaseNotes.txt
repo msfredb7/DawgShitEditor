@@ -1,0 +1,5 @@
+1.0.2
+- Added arrow keys as inputs to modify text elements
+
+1.0.1
+- Fixed bug where exporting pages would put the software in a broken state (invisible drawing, incorrect page previews and more)

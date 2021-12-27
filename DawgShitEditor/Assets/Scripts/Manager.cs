@@ -30,9 +30,28 @@ public class Manager : UPaintGUIManager
     private void OnNewTextButtonClicked()
     {
         var rectTransform = Instantiate(_textPrefab, GetTextContainer(), worldPositionStays: true).GetComponent<RectTransform>();
-        var worldSpawnPos = (Vector2) Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
+        var worldSpawnPos = (Vector2)Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
 
         rectTransform.position = worldSpawnPos;
+    }
+
+    protected override void HandleWASDMovement()
+    {
+        // remove arrow keys
+        Vector2 move = Vector2.zero;
+        if (Input.GetKey(KeyCode.W))
+            move += Vector2.up;
+        if (Input.GetKey(KeyCode.A))
+            move += Vector2.left;
+        if (Input.GetKey(KeyCode.S))
+            move += Vector2.down;
+        if (Input.GetKey(KeyCode.D))
+            move += Vector2.right;
+
+        if (move != Vector2.zero)
+            move.Normalize();
+
+        _refs.CameraManager.Move(move * Time.deltaTime * _refs.CameraManager.CurrentSize * 1);
     }
 
     private void OnActivePageChanged(UPaintGUI previousPage, UPaintGUI newPage)

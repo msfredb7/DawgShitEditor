@@ -57,24 +57,24 @@ public class ControllableText : MonoBehaviour
             _textField.gameObject.SetActive(false);
         }
 
-        if (Input.GetKey(KeyCode.Plus) || Input.GetKey(KeyCode.KeypadPlus) || Input.GetKey(KeyCode.Keypad8))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Keypad8))
         {
             // increase font size
             _textField.fontSize += _fontSizeChangeSpeed * Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.Minus) || Input.GetKey(KeyCode.KeypadMinus) || Input.GetKey(KeyCode.Keypad2))
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.Keypad2))
         {
             // decrease font size
             _textField.fontSize -= _fontSizeChangeSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.PageUp) || Input.GetKey(KeyCode.Keypad6))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.Keypad6))
         {
             // widden
             _transform.sizeDelta += Vector2.right * _sizeChangeSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.PageDown) || Input.GetKey(KeyCode.Keypad4))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Keypad4))
         {
             // thighten
             _transform.sizeDelta -= Vector2.right * _sizeChangeSpeed * Time.deltaTime;

@@ -1158,7 +1158,7 @@ PrefabInstance:
     - target: {fileID: 2716367090174456846, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
         type: 3}
       propertyPath: m_text
-      value: numpad 8 / 2
+      value: "\u2191 \u2193 keys"
       objectReference: {fileID: 0}
     - target: {fileID: 2716367090174456846, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
         type: 3}
@@ -1495,16 +1495,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1054947373211620901}
     m_Modifications:
-    - target: {fileID: 1506599965184501690, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
-        type: 3}
-      propertyPath: m_Padding.m_Left
-      value: 28
-      objectReference: {fileID: 0}
-    - target: {fileID: 1506599965184501690, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
-        type: 3}
-      propertyPath: m_Padding.m_Right
-      value: 28
-      objectReference: {fileID: 0}
     - target: {fileID: 2614338810957150139, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
         type: 3}
       propertyPath: m_text
@@ -1513,7 +1503,7 @@ PrefabInstance:
     - target: {fileID: 2716367090174456846, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
         type: 3}
       propertyPath: m_text
-      value: numpad 4 / 6
+      value: "\u2190\u2192 keys"
       objectReference: {fileID: 0}
     - target: {fileID: 2716367090174456846, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
         type: 3}
@@ -1628,6 +1618,11 @@ PrefabInstance:
     - target: {fileID: 4629304614579530579, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6663412909290802981, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8672042948093475931, guid: cb1fb180bb78ce744b6caa1b0ff9ed6d,
