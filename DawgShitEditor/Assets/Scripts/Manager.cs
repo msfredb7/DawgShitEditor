@@ -5,6 +5,7 @@ using CCC.UPaintGUI;
 using System.IO;
 using System;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Manager : UPaintGUIManager
 {
@@ -33,6 +34,14 @@ public class Manager : UPaintGUIManager
         var worldSpawnPos = (Vector2)Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
 
         rectTransform.position = worldSpawnPos;
+    }
+
+    protected override void HandleColorPickingShortcut()
+    {
+        if (EventSystem.current.currentSelectedGameObject?.GetComponent<UPaintGUIControllableObject>() != null)
+            return;
+
+        base.HandleColorPickingShortcut();
     }
 
     protected override void HandleWASDMovement()
