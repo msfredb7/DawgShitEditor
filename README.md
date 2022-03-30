@@ -42,3 +42,14 @@ Si tu veux faire un chapitre de Dawg Shit sans l'éditeur (e.g avec Paint, Gimp 
 - Exporter des jpg
 - Garder une résolution de 800x1280
 - Ne pas dépassé 20 MB pour ton chapitre en entier
+
+# Ajouter de la musique au chapitre
+NB: (requiert Dawg Shit Extension pour l'écouté)
+Dans le bas du chapitre, sur Webtoons, publie un commentaire avec ce format exacte:
+``Dawg Shit Plugin Info:le url du video youtube avec la musique``.
+Example:
+``Dawg Shit Plugin Info:https://youtu.be/hgZHsjjR1OM``
+N'oublie pas que tu peux spécifié une timestamp dans l'url du video avec Youtube (appuie sur Share en dessous du video).
+
+
+
