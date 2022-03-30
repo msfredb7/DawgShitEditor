@@ -38,7 +38,7 @@ public class PageManager : MonoBehaviour
         AddPage(_refs.DrawCanvas.gameObject);
     }
 
-    private void AddPage()
+    public void AddPage()
     {
         // duplicate the last page
         GameObject newPageCanvas = Instantiate(_pages[_pages.Count - 1].RootGameObject, _pages[_pages.Count - 1].RootGameObject.transform.parent, worldPositionStays: true);
@@ -67,6 +67,15 @@ public class PageManager : MonoBehaviour
     }
 
     public UPaintGUI GetPageUPaint(int i) => _pages[i].Upaint;
+    public void RemovePage(int i)
+    {
+        if(i < 0 || i >= _pages.Count)
+        {
+            Log.Error($"Cannot remove page at index {i} when we only have {_pages.Count} page(s).");
+            return;
+        }
+        RemovePage(_pages[i]);
+    }
 
     private void AddPage(GameObject canvas)
     {
