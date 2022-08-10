@@ -21,6 +21,27 @@ public class Manager : UPaintGUIManager
             public List<byte[]> Layers = new List<byte[]>();
         }
         public List<Page> Pages = new List<Page>();
+        public List<SerializableColor> ColorSwatches = new List<SerializableColor>();
+    }
+
+    [System.Serializable]
+    private struct SerializableColor
+    {
+        public float R;
+        public float G;
+        public float B;
+        public float A;
+
+        public SerializableColor(float r, float g, float b, float a)
+        {
+            R = r;
+            G = g;
+            B = b;
+            A = a;
+        }
+
+        public static implicit operator Color(SerializableColor x) => new Color(x.R, x.G, x.B, x.A);
+        public static implicit operator SerializableColor(Color x) => new SerializableColor(x.r, x.g, x.b, x.a);
     }
 
     [SerializeField] private Vector2 _pageResolution;
@@ -82,6 +103,16 @@ public class Manager : UPaintGUIManager
         while (_pageManager.PageCount > loadState.Pages.Count)
             _pageManager.RemovePage(_pageManager.PageCount - 1);
 
+        // Update colors
+        while (_refs.ColorSwatchBar.ColorCount > 0)
+        {
+            _refs.ColorSwatchBar.RemoveColor(_refs.ColorSwatchBar.ColorCount - 1);
+        }
+        foreach (var color in loadState.ColorSwatches)
+        {
+            _refs.ColorSwatchBar.AddColor(color);
+        }
+
         for (int p = 0; p < _pageManager.PageCount; p++)
         {
             var pageUPaint = _pageManager.GetPageUPaint(p);
@@ -109,6 +140,13 @@ public class Manager : UPaintGUIManager
     private void OnSaveClick()
     {
         SaveState saveState = new SaveState();
+
+        // save colors
+        foreach (var color in _refs.ColorSwatchBar.GetColors())
+        {
+            saveState.ColorSwatches.Add(color);
+        }
+
         for (int p = 0; p < _pageManager.PageCount; p++)
         {
             var pageUPaint = _pageManager.GetPageUPaint(p);
