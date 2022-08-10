@@ -69,7 +69,7 @@ public class PageManager : MonoBehaviour
     public UPaintGUI GetPageUPaint(int i) => _pages[i].Upaint;
     public void RemovePage(int i)
     {
-        if(i < 0 || i >= _pages.Count)
+        if (i < 0 || i >= _pages.Count)
         {
             Log.Error($"Cannot remove page at index {i} when we only have {_pages.Count} page(s).");
             return;
@@ -140,14 +140,20 @@ public class PageManager : MonoBehaviour
         if (_pages.Count == 1)
             return;
 
-        if (!_pages.Remove(page))
-            return;
+        _refs.DialogBox.Show("Delete Page ? This action cannot be undone.", new string[] { "Cancel", "Delete Page" }, (int choicePicked) =>
+        {
+            if (choicePicked == 0)
+                return;
 
-        if (_activePage == page)
-            SelectPage(_pages[0]);
+            if (!_pages.Remove(page))
+                return;
 
-        Destroy(page.RootGameObject);
-        Destroy(page.Button.gameObject);
+            if (_activePage == page)
+                SelectPage(_pages[0]);
+
+            Destroy(page.RootGameObject);
+            Destroy(page.Button.gameObject);
+        });
     }
 
     private void MovePageUp(Page page)
