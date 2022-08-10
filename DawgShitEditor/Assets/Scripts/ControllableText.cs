@@ -14,15 +14,37 @@ public class ControllableText : MonoBehaviour
     [SerializeField] private TMP_FontAsset[] _fontCarousel;
     [SerializeField] private TMP_InputField _inputField;
 
-    private RectTransform _transform;
     private UPaintGUIControllableObject _controllable;
     private int _currentFontCarouselIndex = 0;
     private bool _ignoreNextEndEdit;
     private bool _ignoreSubmitButtonOnNextUpdate;
 
+    public float FontSize
+    {
+        get => _textField.fontSize;
+        set => _textField.fontSize = value;
+    }
+    public float SizeDeltaX
+    {
+        get => GetComponent<RectTransform>().sizeDelta.x;
+        set => GetComponent<RectTransform>().sizeDelta = new Vector2(value, GetComponent<RectTransform>().sizeDelta.y);
+    }
+    public int FontIndex
+    {
+        get => _currentFontCarouselIndex;
+        set {
+            _currentFontCarouselIndex = value;
+            _textField.font = _fontCarousel[_currentFontCarouselIndex];
+        }
+    }
+    public string Text
+    {
+        get => _textField.text;
+        set => _textField.text = value;
+    }
+
     private void Awake()
     {
-        _transform = GetComponent<RectTransform>();
         _controllable = GetComponent<UPaintGUIControllableObject>();
         _inputField.onEndEdit.AddListener(OnEndEditInputField);
         _inputField.onSubmit.AddListener(OnSubmitInputField);
@@ -60,24 +82,24 @@ public class ControllableText : MonoBehaviour
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Keypad8))
         {
             // increase font size
-            _textField.fontSize += _fontSizeChangeSpeed * Time.deltaTime;
+            FontSize += _fontSizeChangeSpeed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.Keypad2))
         {
             // decrease font size
-            _textField.fontSize -= _fontSizeChangeSpeed * Time.deltaTime;
+            FontSize -= _fontSizeChangeSpeed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.Keypad6))
         {
             // widden
-            _transform.sizeDelta += Vector2.right * _sizeChangeSpeed * Time.deltaTime;
+            SizeDeltaX += _sizeChangeSpeed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.Keypad4))
         {
             // thighten
-            _transform.sizeDelta -= Vector2.right * _sizeChangeSpeed * Time.deltaTime;
+            SizeDeltaX -= _sizeChangeSpeed * Time.deltaTime;
         }
 
         if (Input.GetKeyDown(KeyCode.Delete))
@@ -89,9 +111,7 @@ public class ControllableText : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) || Input.GetKey(KeyCode.Keypad5))
         {
             // font swap
-            _currentFontCarouselIndex++;
-            _currentFontCarouselIndex %= _fontCarousel.Length;
-            _textField.font = _fontCarousel[_currentFontCarouselIndex];
+            FontIndex = (FontIndex + 1) % _fontCarousel.Length;
         }
     }
 

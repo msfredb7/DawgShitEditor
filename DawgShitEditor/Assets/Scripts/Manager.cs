@@ -18,30 +18,58 @@ public class Manager : UPaintGUIManager
         [System.Serializable]
         public class Page
         {
+            [System.Serializable]
+            public class TextField
+            {
+                public int FontStyle;
+                public string Text;
+                public SerializableVector2 Position;
+                public float FontSize;
+                public float SizeDeltaX;
+            }
+
             public List<byte[]> Layers = new List<byte[]>();
+            public List<TextField> Texts = new List<TextField>();
         }
+
+        [System.Serializable]
+        public struct SerializableColor
+        {
+            public float R;
+            public float G;
+            public float B;
+            public float A;
+
+            public SerializableColor(float r, float g, float b, float a)
+            {
+                R = r;
+                G = g;
+                B = b;
+                A = a;
+            }
+
+            public static implicit operator Color(SerializableColor x) => new Color(x.R, x.G, x.B, x.A);
+            public static implicit operator SerializableColor(Color x) => new SerializableColor(x.r, x.g, x.b, x.a);
+        }
+
+        [System.Serializable]
+        public struct SerializableVector2
+        {
+            public float X;
+            public float Y;
+
+            public SerializableVector2(float x, float y)
+            {
+                X = x;
+                Y = y;
+            }
+
+            public static implicit operator Vector2(SerializableVector2 x) => new Vector2(x.X, x.Y);
+            public static implicit operator SerializableVector2(Vector2 x) => new SerializableVector2(x.x, x.y);
+        }
+
         public List<Page> Pages = new List<Page>();
         public List<SerializableColor> ColorSwatches = new List<SerializableColor>();
-    }
-
-    [System.Serializable]
-    private struct SerializableColor
-    {
-        public float R;
-        public float G;
-        public float B;
-        public float A;
-
-        public SerializableColor(float r, float g, float b, float a)
-        {
-            R = r;
-            G = g;
-            B = b;
-            A = a;
-        }
-
-        public static implicit operator Color(SerializableColor x) => new Color(x.R, x.G, x.B, x.A);
-        public static implicit operator SerializableColor(Color x) => new SerializableColor(x.r, x.g, x.b, x.a);
     }
 
     [SerializeField] private Vector2 _pageResolution;
@@ -54,6 +82,10 @@ public class Manager : UPaintGUIManager
     private Transform GetTextContainer()
     {
         return _refs.DrawCanvas.transform.Find("TextContainer");
+    }
+    private Transform GetTextContainer(UPaintGUI uPaintGUI)
+    {
+        return uPaintGUI.GetComponentInParent<Canvas>(includeInactive: true).transform.Find("TextContainer");
     }
 
     protected override void Awake()
@@ -118,6 +150,23 @@ public class Manager : UPaintGUIManager
             var pageUPaint = _pageManager.GetPageUPaint(p);
             var pageState = loadState.Pages[p];
 
+            // destroy existing texts
+            var textContainer = GetTextContainer(pageUPaint);
+            foreach (var controllableText in textContainer.GetComponentsInChildren<ControllableText>(includeInactive: true))
+            {
+                Destroy(controllableText.gameObject);
+            }
+            // restore texts
+            foreach (var textSave in pageState.Texts)
+            {
+                var controllableText = Instantiate(_textPrefab, textContainer, worldPositionStays: true).GetComponent<ControllableText>();
+                controllableText.Text = textSave.Text;
+                controllableText.FontSize = textSave.FontSize;
+                controllableText.SizeDeltaX = textSave.SizeDeltaX;
+                controllableText.FontIndex = textSave.FontStyle;
+                controllableText.GetComponent<RectTransform>().anchoredPosition = textSave.Position;
+            }
+
             // reset layers
             while (pageUPaint.LayerCount > 0)
                 pageUPaint.RemoveLayer(0);
@@ -151,6 +200,19 @@ public class Manager : UPaintGUIManager
         {
             var pageUPaint = _pageManager.GetPageUPaint(p);
             var pageState = new SaveState.Page();
+
+            // save text
+            var textContainer = GetTextContainer(pageUPaint);
+            foreach (var controllableText in textContainer.GetComponentsInChildren<ControllableText>(includeInactive: true))
+            {
+                var textSave = new SaveState.Page.TextField();
+                textSave.Text = controllableText.Text;
+                textSave.FontSize = controllableText.FontSize;
+                textSave.SizeDeltaX = controllableText.SizeDeltaX;
+                textSave.FontStyle = controllableText.FontIndex;
+                textSave.Position = controllableText.GetComponent<RectTransform>().anchoredPosition;
+                pageState.Texts.Add(textSave);
+            }
 
             for (int l = 0; l < pageUPaint.LayerCount; l++)
             {
