@@ -28,7 +28,14 @@ public class Manager : UPaintGUIManager
                 public float SizeDeltaX;
             }
 
-            public List<byte[]> Layers = new List<byte[]>();
+            [System.Serializable]
+            public class Layer
+            {
+                public byte[] TextureData;
+                public bool Visible;
+            }
+
+            public List<Layer> Layers = new List<Layer>();
             public List<TextField> Texts = new List<TextField>();
         }
 
@@ -178,8 +185,9 @@ public class Manager : UPaintGUIManager
                 var layerTexture = pageUPaint.GetLayerTexture(l);
 
                 // restore texture state
-                layerTexture.LoadRawTextureData(pageState.Layers[l]);
+                layerTexture.LoadRawTextureData(pageState.Layers[l].TextureData);
                 layerTexture.Apply();
+                pageUPaint.SetLayerVisible(l, pageState.Layers[l].Visible);
             }
         }
 
@@ -217,7 +225,12 @@ public class Manager : UPaintGUIManager
             for (int l = 0; l < pageUPaint.LayerCount; l++)
             {
                 var layerTexture = pageUPaint.GetLayerTexture(l);
-                pageState.Layers.Add(layerTexture.GetRawTextureData());
+                var savedLayer = new SaveState.Page.Layer()
+                {
+                    TextureData = layerTexture.GetRawTextureData(),
+                    Visible = pageUPaint.IsLayerVisible(l)
+                };
+                pageState.Layers.Add(savedLayer);
             }
 
             saveState.Pages.Add(pageState);
