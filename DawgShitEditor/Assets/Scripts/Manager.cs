@@ -85,6 +85,7 @@ public class Manager : UPaintGUIManager
     [SerializeField] private RectTransform _textPrefab;
     [SerializeField] private Button _saveButton;
     [SerializeField] private Button _loadButton;
+    [SerializeField] private Image _pasteImage;
 
     private Transform GetTextContainer()
     {
