@@ -1,0 +1,28 @@
+1.3.1
+- First version of "Paste" support. It has some issues, but it's a decent first pass
+
+1.3.0
+- Layer visibility now get saved
+- Add offset to Fill cursor image so it doesn't hide the target pixel
+
+1.2.0
+- Texts are now saved in projects
+- New Color Swatch bar at the top to help users save/change color quickly
+- New confirmation dialogs when about to delete a page or a layer
+
+1.1.0
+- Save and load feature
+
+1.0.4
+- Fix layer ordering bug when moving layer down
+- Add F as a shortcut for quick color picking
+- Add Help panel
+
+1.0.3
+- Fix the background texture that was not 100% white
+
+1.0.2
+- Added arrow keys as inputs to modify text elements
+
+1.0.1
+- Fixed bug where exporting pages would put the software in a broken state (invisible drawing, incorrect page previews and more)
